@@ -144,6 +144,8 @@ type options = {
   timers : bool option;
 
   file : string option;
+
+  model: string option;
 }
 
 type used_axiom =

@@ -67,6 +67,13 @@ let get_numbers = function
     None -> None
   | Some i -> Some (Numbers.Q.from_int i)
 
+let get_model = function
+  | None -> Some Options.MNone
+  | Some "default" -> Some MDefault
+  | Some "all" -> Some MAll
+  | Some "complete" -> Some MComplete
+  | Some _ -> assert false
+
 let set_options_opt f = function
   | None -> ()
   | Some v -> f v
@@ -184,3 +191,5 @@ let set_options r =
   set_options_opt Options.set_timers r.timers;
 
   set_options_opt Options.set_file r.file;
+
+  set_options_opt Options.set_model (get_model r.model);

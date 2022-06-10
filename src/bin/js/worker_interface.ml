@@ -237,6 +237,8 @@ type options = {
   timers : bool option;
 
   file : string option;
+
+  model: string option;
 }
 
 let init_options () = {
@@ -343,6 +345,8 @@ let init_options () = {
   timers = None;
 
   file = None;
+
+  model = None;
 }
 
 
@@ -412,7 +416,7 @@ let opt2_encoding =
   conv
     (fun opt2 -> opt2)
     (fun opt2 -> opt2)
-    (obj8
+    (obj9
        (opt "answers_with_loc" bool)
        (opt "frontend" frontend_encoding)
        (opt "input_format" format_encoding)
@@ -421,6 +425,7 @@ let opt2_encoding =
        (opt "preludes" (list string))
        (opt "type_only" bool)
        (opt "type_smt2" bool)
+       (opt "model" string)
     )
 
 let opt3_encoding =
@@ -568,7 +573,8 @@ let options_to_json opt =
      opt.parsers,
      opt.preludes,
      opt.type_only,
-     opt.type_smt2)
+     opt.type_smt2,
+     opt.model)
   in
   let all_opt3 =
     (opt.disable_weaks,
@@ -696,7 +702,8 @@ let options_from_json options =
          parsers,
          preludes,
          type_only,
-         type_smt2) = all_opt2 in
+         type_smt2,
+         model) = all_opt2 in
     let (disable_weaks,
          enable_assertions,
          age_bound,
@@ -832,7 +839,8 @@ let options_from_json options =
       tighten_vars;
       use_fpa;
       timers;
-      file
+      file;
+      model
     }
   | Error _e -> assert false
 
